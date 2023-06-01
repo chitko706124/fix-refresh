@@ -18,13 +18,43 @@ export const contentApi = createApi({
     createContent: builder.mutation({
       query: ({ token, content }) => ({
         url: "/contact",
-        method:"Post",
+        method: "Post",
         headers: { authorization: `Bearer ${token}` },
         body: content,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    getContactDetail: builder.query({
+      query: ({ id, token }) => ({
+        url: `/contact/${id}`,
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["contact"],
+    }),
+    editContact: builder.mutation({
+      query: ({ token, content, id }) => ({
+        url: `/contact/${id}`,
+        method: "PUT",
+        headers: { authorization: `Bearer ${token}` },
+        body: content,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    deleteContact: builder.mutation({
+      query: ({ id, token }) => ({
+        url: `/contact/${id}`,
+        method: "DELETE",
+        headers: { authorization: `Bearer ${token}` },
       }),
       invalidatesTags: ["auth"],
     }),
   }),
 });
 
-export const { useGetContentQuery, useCreateContentMutation } = contentApi;
+export const {
+  useGetContentQuery,
+  useCreateContentMutation,
+  useGetContactDetailQuery,
+  useEditContactMutation,
+  useDeleteContactMutation,
+} = contentApi;

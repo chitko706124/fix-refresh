@@ -2,6 +2,7 @@ import { TextInput, PasswordInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../services/api/authApi";
+import { toast } from "react-hot-toast";
 const Register = () => {
   const form = useForm({
     initialValues: {
@@ -22,19 +23,22 @@ const Register = () => {
           : null,
     },
   });
+
+  const notify = () => toast.success('Contact is Registered');
+
   const [register] = useRegisterMutation();
   const navigate = useNavigate();
   return (
     <div className=" ">
       <form
         onSubmit={form.onSubmit(async (values) => {
-          console.log(values);
           try {
             // const user = { name, email, password, password_confirmation };
             const { data } = await register(values);
-            console.log(data);
+            // console.log(data);
 
             if (data?.success) {
+              notify()
               navigate(`/login`);
             }
           } catch (error) {

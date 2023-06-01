@@ -9,10 +9,13 @@ import CreateContact from "./pages/CreateContact";
 import Login from "./authentication/Login";
 import Register from "./authentication/Register";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+import ContactDetail from "./pages/ContactDetail";
+import EditContact from "./pages/EditContact";
 // import ContactList from './pages/ContactList';
 const App = () => {
   const path = useSelector((state) => state.search.path);
-  console.log(path)
+  console.log(path);
   // function renderContent() {
   //   if (path === "contactList") {
   //     return <Header />;
@@ -22,6 +25,7 @@ const App = () => {
     <>
       {/* {renderContent()} */}
       <Header />
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route
           path="/"
@@ -34,6 +38,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/create" element={<CreateContact />} />
+        <Route path="/detail/:id" element={<ContactDetail />} />
+        <Route path="/edit/:id" element={<EditContact />} />
       </Routes>
     </>
   );

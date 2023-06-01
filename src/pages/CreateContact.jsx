@@ -3,9 +3,12 @@ import { useForm } from "@mantine/form";
 import { TextInput } from "@mantine/core";
 import { useCreateContentMutation} from "../services/api/contentApi"
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
 
 const CreateContact = () => {
+  const notify = () => toast.success('Content is Created');
+
     const form = useForm({
         initialValues: {
           name: "",
@@ -28,6 +31,7 @@ const CreateContact = () => {
             onSubmit={form.onSubmit(async (values) => {
               const { data } = await createContent({ token, content: values });
               if (data?.success) {
+                notify()
                 nav("/");
               }
               console.log(data);
@@ -51,10 +55,18 @@ const CreateContact = () => {
               placeholder="Enter Your Address"
               {...form.getInputProps("address")}
             />
-            <button onClick={()=> nav("/")} className=" bg-blue-500 text-white py-1" type="submit">Back</button>
-            <button className=" bg-blue-500 text-white py-1" type="submit">
-              Create
+            <div className=' flex items-center justify-between gap-3'>
+            
+            <button className=" text-blue-500 border outline outline-offset-2 outline-1 rounded-sm w-2/4" type="submit">
+              <Link to={'/'}>
+                Cancel
+              </Link>
             </button>
+            
+              <button className=" bg-blue-500 text-white py-1 w-2/4 rounded-sm" type="submit">
+                Create
+              </button>
+            </div>
           </form>
         </div>
       );

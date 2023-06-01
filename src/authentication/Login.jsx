@@ -4,11 +4,14 @@ import { useForm } from "@mantine/form";
 import { PasswordInput, TextInput } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../services/api/authApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "../services/authSlice";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const datas = useSelector((state) => state.auth);
+  // const datas = useSelector((state) => state.auth);
+
+  const notify = () => toast.success("Logined");
 
   const form = useForm({
     initialValues: {
@@ -34,12 +37,11 @@ const Login = () => {
           console.log(values);
           try {
             const { data } = await login(values);
-            console.log(data);
 
             dispatch(addUser({ user: data?.user, token: data?.token }));
 
             if (data?.success) {
-              // dispatch(setHeader());
+              notify();
               nav(`/`);
             }
           } catch (error) {
